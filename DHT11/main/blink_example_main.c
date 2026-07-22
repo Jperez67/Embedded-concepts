@@ -2,16 +2,16 @@
 #include <stdio.h>
 #include "driver/gpio.h"
 #include "esp_rom_sys.h"
-
-const unint8_t DHT_11_DATA_PIN = 4;
-unit8_t data[5] = {0};
+#include "freertos/FreeRTOS.h"
+const uint8_t DHT_11_DATA_PIN = 4;
+uint8_t data[5] = {0};
 uint8_t checksum = 0, data_valid = 0;
 void app_main(void)
 {
     while (1)
     {
         gpio_set_direction(DHT_11_DATA_PIN, GPIO_MODE_OUTPUT);
-        vtask_delay(2000 / portTICK_PERIOD_MS);
+        vTaskDelay(2000 / portTICK_PERIOD_MS);
         // send start signal the DHT11 sensor
         gpio_set_level(DHT_11_DATA_PIN, 0);
         esp_rom_delay_us(18000); // wait for 18ms
